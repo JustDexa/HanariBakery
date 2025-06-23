@@ -8,6 +8,9 @@ class Produk:
 
     def tampilkan_data(self):
         print(f"Nama: {self.nama_product}, Kode: {self.kode_product}, Harga Jual: {self.harga_jual}")
+        print("Bahan Baku = ")
+        for bahan, jumlah in self.bahan_baku.items():
+            print(f" - {bahan}:{jumlah}")
 
     def kalkulasi_biaya_produksi(self):
         return sum(self.biaya_produksi)

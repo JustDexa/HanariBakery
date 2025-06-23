@@ -16,7 +16,15 @@ def tambah_produk():
 
     nama = input("Nama Produk: ")
     kode = input("Kode Produk: ")
-    bahan = input("Daftar bahan baku (pisahkan dengan koma): ").split(",")
+    while True:
+        bahan_input = input("Daftar bahan baku dan jumlah (format: Nama=Jumlah, pisahkan dengan koma): ")
+        try:
+            bahan = dict(item.strip().split("=") for item in bahan_input.split(","))
+            if not all(bahan.values()):
+                raise ValueError
+            break
+        except ValueError:
+         print("⚠ Format salah! Gunakan format seperti: Tepung=250g, Gula=100g")
     biaya = list(map(int, input("Biaya produksi per bahan (pisahkan dengan koma): ").split(",")))
     harga = int(input("Harga jual per-n pcs: "))
 
@@ -95,6 +103,4 @@ def main():
             break
         else:
             print("Pilihan tidak valid.")
-
-if __name__ == "__main__":
-    main()
+main()
