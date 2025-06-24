@@ -11,15 +11,10 @@ class Produk:
         print("Bahan Baku = ")
         for bahan, jumlah in self.bahan_baku.items():
             print(f" - {bahan}:{jumlah}")
+        print("")
 
     def kalkulasi_biaya_produksi(self):
         return sum(self.biaya_produksi)
 
     def kalkulasi_harga_jual(self):
         return self.kalkulasi_biaya_produksi() * 1.5
-
-    def pengadonan(self):
-        print("Proses pengadonan dimulai...")
-
-    def pemanggangan(self):
-        print("Proses pemanggangan dimulai...")

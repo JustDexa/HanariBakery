@@ -3,6 +3,9 @@ from produk.Roti_Manis import Roti_Manis
 from produk.Kue_Kering import Kue_Kering
 from produk.Muffin import Muffin
 from produk.Butter_Cookies import Butter_Cookies
+from produk.proses import Proses
+
+
 
 produk_list = []
 
@@ -24,7 +27,7 @@ def tambah_produk():
                 raise ValueError
             break
         except ValueError:
-         print("⚠ Format salah! Gunakan format seperti: Tepung=250g, Gula=100g")
+         print(" Format salah! Gunakan format seperti: Tepung=250g, Gula=100g")
     biaya = list(map(int, input("Biaya produksi per bahan (pisahkan dengan koma): ").split(",")))
     harga = int(input("Harga jual per-n pcs: "))
 
@@ -55,31 +58,68 @@ def estimasi_profit():
     if not produk_list:
         print("Belum ada produk.")
         return
+
     for idx, p in enumerate(produk_list):
         print(f"{idx+1}. {p.nama_product}")
-    idx = int(input("Pilih produk: ")) - 1
-    jumlah = int(input("Jumlah pcs yang akan diproduksi: "))
+
+    while True:
+        try:
+            idx = int(input("Pilih produk (angka): ")) - 1
+            if idx < 0 or idx >= len(produk_list):
+                raise IndexError
+            break
+        except ValueError:
+            print("Input harus berupa angka.")
+        except IndexError:
+            print("Nomor produk tidak valid.")
+
+    while True:
+        try:
+            jumlah = int(input("Jumlah pcs yang akan diproduksi: "))
+            break
+        except ValueError:
+            print("Jumlah harus berupa angka.")
+
     produk = produk_list[idx]
     total_biaya = produk.kalkulasi_biaya_produksi() * jumlah
     total_jual = produk.harga_jual * jumlah
     profit = total_jual - total_biaya
     print(f"Estimasi Profit: Rp{profit}")
 
+
 def simulasi_produksi():
     print("\n=== Simulasi Produksi ===")
     if not produk_list:
         print("Belum ada produk.")
         return
+
     for idx, p in enumerate(produk_list):
         print(f"{idx+1}. {p.nama_product}")
-    idx = int(input("Pilih produk: ")) - 1
+
+    while True:
+        try:
+            idx = int(input("Pilih produk (angka): ")) - 1
+            if idx < 0 or idx >= len(produk_list):
+                raise IndexError
+            break
+        except ValueError:
+            print("Input harus berupa angka.")
+        except IndexError:
+            print("Nomor produk tidak valid.")
+
     produk = produk_list[idx]
-    produk.pengadonan()
+
+    proses.pengadonan(produk)
+
     if hasattr(produk, 'pengembangan'):
         produk.pengembangan()
-    produk.pemanggangan()
+
+    proses.pemanggangan(produk)
+
     if hasattr(produk, 'tambah_topping'):
         produk.tambah_topping()
+
+
 
 def main():
     while True:
@@ -103,4 +143,7 @@ def main():
             break
         else:
             print("Pilihan tidak valid.")
-main()
+
+proses = Proses()
+
+main() 
